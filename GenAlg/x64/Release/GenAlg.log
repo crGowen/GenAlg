@@ -1,6 +1,6 @@
 ﻿  stdafx.cpp
   genalg.cpp
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(20): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(80): warning C4018: '<': signed/unsigned mismatch
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(86): warning C4018: '<': signed/unsigned mismatch
+c:\users\carl\source\repos\genalg\genalg\genalg.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\carl\source\repos\genalg\genalg\genalg.cpp(77): warning C4018: '<': signed/unsigned mismatch
+c:\users\carl\source\repos\genalg\genalg\genalg.cpp(83): warning C4018: '<': signed/unsigned mismatch
   GenAlg.vcxproj -> C:\Users\Carl\source\repos\GenAlg\x64\Release\GenAlg.lib

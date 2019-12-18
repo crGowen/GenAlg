@@ -15,15 +15,13 @@ namespace GenAlg {
 			unsigned __int32* genes;
 			double fitness;
 
-			~GASolution();
-
 			void InitGeneString(unsigned __int16 n, bool randomise);
 		};
-	public:
-		GASolution* population;
-		GASolution bestSolution;
 
-		GeneticAlgorithm(unsigned __int32 inputPopSize, unsigned __int16 inputNumberOfGenerations, unsigned __int16 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), unsigned __int16 inputGroupSize, unsigned __int32 mutationRateIn100000, unsigned __int32 crossoverRateIn100000);
+		GASolution* population;
+
+	public:
+		GASolution bestSolution;
 
 		double(*FitnessEval)(unsigned __int32* inputGenes);
 
@@ -31,11 +29,13 @@ namespace GenAlg {
 
 		void CreatePopulation();
 
-		GASolution GenerateChild(unsigned __int32 posM, unsigned __int32 posD);
-		
+		void GenerateChild(unsigned __int32 posM, unsigned __int32 posD, GASolution newSol);
+
 		void TournamentSelection();
 
 		void UpdateBest(GASolution input);
+
+		GeneticAlgorithm(__int32 inputPopSize, __int32 inputNumberOfGenerations, __int32 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), __int32 inputGroupSize, __int32 mutationRateIn100000, __int32 crossoverRateIn100000);
 
 		void RunGeneticAlgorithm();
 	};

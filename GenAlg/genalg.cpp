@@ -9,10 +9,6 @@
 
 namespace GenAlg
 {
-	GeneticAlgorithm::GASolution::~GASolution() {
-		delete[] genes;
-	}
-
 	void GeneticAlgorithm::GASolution::InitGeneString(unsigned __int16 n, bool randomise) {
 		genes = new unsigned __int32[n];
 
@@ -25,7 +21,7 @@ namespace GenAlg
 		}
 	}
 
-	GeneticAlgorithm::GeneticAlgorithm(unsigned __int32 inputPopSize, unsigned __int16 inputNumberOfGenerations, unsigned __int16 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), unsigned __int16 inputGroupSize, unsigned __int32 mutationRateIn100000, unsigned __int32 crossoverRateIn100000) {
+	GeneticAlgorithm::GeneticAlgorithm(__int32 inputPopSize, __int32 inputNumberOfGenerations, __int32 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), __int32 inputGroupSize, __int32 mutationRateIn100000, __int32 crossoverRateIn100000) {
 		popSize = inputPopSize;
 		generations = inputNumberOfGenerations;
 		nGenes = numberOfGenes;
@@ -40,15 +36,16 @@ namespace GenAlg
 	void GeneticAlgorithm::CreatePopulation() {
 		population = new GASolution[popSize];
 
-		for (unsigned __int32 i; i < popSize; i++) {
+		for (unsigned __int32 i = 0; i < popSize; i++) {
 			population[i].InitGeneString(nGenes, true);
 		}
 
 		bestSolution.InitGeneString(nGenes, false);
+		bestSolution.fitness = -50000000.0;
 	}
 
 	void GeneticAlgorithm::EvaluateFitnessForPop() {
-		for (unsigned __int32 i; i < popSize; i++) {
+		for (unsigned __int32 i = 0; i < popSize; i++) {
 			population[i].fitness = FitnessEval(population[i].genes);
 			if (population[i].fitness > bestSolution.fitness) {
 				UpdateBest(population[i]);
@@ -63,7 +60,7 @@ namespace GenAlg
 		}
 	}
 
-	GeneticAlgorithm::GASolution GeneticAlgorithm::GenerateChild(unsigned __int32 posM, unsigned __int32 posD) {
+	void GeneticAlgorithm::GenerateChild(unsigned __int32 posM, unsigned __int32 posD, GeneticAlgorithm::GASolution newSol) {
 		std::string mbin(32 * nGenes, '2');
 		for (unsigned __int32 i = 0; i < nGenes; i++) {
 			mbin.replace(i * 32, 32, std::bitset<32>(population[posM].genes[i]).to_string());
@@ -89,22 +86,23 @@ namespace GenAlg
 			else childbin.replace(tempRand, 1, "0");
 		}
 
-		GeneticAlgorithm::GASolution output;
 		for (unsigned __int32 i = 0; i < nGenes; i++) {
-			output.genes[i] = std::bitset<32>(childbin.substr(i * 32, 32)).to_ulong();
+			newSol.genes[i] = std::bitset<32>(childbin.substr(i * 32, 32)).to_ulong();
 		}
-
-		return output;
 	}
 
 	void GeneticAlgorithm::TournamentSelection() {
 		GASolution* nextGen = new GASolution[popSize];
+		for (unsigned __int32 i = 0; i < popSize; i++) {
+			nextGen[i].InitGeneString(nGenes, false);
+		}
+
 		bool unique;
 		unsigned __int32 bestContender;
 		unsigned __int32* contenders = new unsigned __int32[groupSize];
 
 
-		for (unsigned __int32 popMember; popMember < popSize; popMember++) {
+		for (unsigned __int32 popMember = 0; popMember < popSize; popMember++) {
 
 			// for m
 			for (int i = 0; i < groupSize; i++) {
@@ -114,7 +112,7 @@ namespace GenAlg
 			for (int i = 0; i < groupSize; i++) {
 				unique = false;
 				while (!unique) {
-					contenders[i] = unsigned __int32(rand() % 4294967296);
+					contenders[i] = unsigned __int32(rand() % popSize);
 					unique = true;
 					for (int j = 0; j < groupSize; j++) {
 						if (contenders[i] == contenders[j] && i != j) {
@@ -141,7 +139,7 @@ namespace GenAlg
 			for (int i = 0; i < groupSize; i++) {
 				unique = false;
 				while (!unique) {
-					contenders[i] = unsigned __int32(rand() % 4294967296);
+					contenders[i] = unsigned __int32(rand() % popSize);
 					unique = !(contenders[i] == mother);
 					for (int j = 0; j < groupSize; j++) {
 						if (contenders[i] == contenders[j] && i != j) {
@@ -161,11 +159,11 @@ namespace GenAlg
 
 			unsigned __int32 father = bestContender;
 
-			nextGen[popMember] = GenerateChild(mother, father);
+			GenerateChild(mother, father, nextGen[popMember]);
 		}
 
 		for (unsigned __int32 i = 0; i < popSize; i++) {
-			for (unsigned __int32 j = 0; j < nGenes; i++) {
+			for (unsigned __int32 j = 0; j < nGenes; j++) {
 				population[i].genes[j] = nextGen[i].genes[j];				
 			}
 			delete[] nextGen[i].genes;
@@ -176,9 +174,10 @@ namespace GenAlg
 	void GeneticAlgorithm::RunGeneticAlgorithm() {
 		CreatePopulation();
 
+		std::cout.precision(15);
 		for (int i = 0; i < generations; i++) {
 			EvaluateFitnessForPop();
-			std::cout << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
+			std::cout << std::scientific << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
 			TournamentSelection();
 		}
 	}
