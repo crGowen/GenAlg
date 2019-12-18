@@ -5,6 +5,10 @@ namespace GenAlg {
 		unsigned __int16 groupSize;
 		unsigned __int16 nGenes;
 		unsigned __int16 generations;
+		unsigned __int32 muRate;
+		unsigned __int32 crRate;
+
+		bool block = true;
 
 		class GASolution {
 		public:
@@ -19,6 +23,8 @@ namespace GenAlg {
 		GASolution* population;
 		GASolution bestSolution;
 
+		GeneticAlgorithm(unsigned __int32 inputPopSize, unsigned __int16 inputNumberOfGenerations, unsigned __int16 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), unsigned __int16 inputGroupSize, unsigned __int32 mutationRateIn100000, unsigned __int32 crossoverRateIn100000);
+
 		double(*FitnessEval)(unsigned __int32* inputGenes);
 
 		void EvaluateFitnessForPop();
@@ -31,6 +37,6 @@ namespace GenAlg {
 
 		void UpdateBest(GASolution input);
 
-		void RunGeneticAlgorithm(unsigned __int32 inputPopSize, unsigned __int16 inputGens, unsigned __int16 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), unsigned __int16 groupSize)
+		void RunGeneticAlgorithm();
 	};
 }
