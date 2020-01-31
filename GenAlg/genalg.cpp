@@ -172,6 +172,9 @@ namespace GenAlg
 	}
 
 	void GeneticAlgorithm::RunGeneticAlgorithm() {
+		if (block) {
+			std::cout << "\nGenAlg instance not initialised properly, use the parametised constructor only!\n";
+		}
 		CreatePopulation();
 
 		std::cout.precision(15);
@@ -180,6 +183,13 @@ namespace GenAlg
 			std::cout << std::scientific << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
 			TournamentSelection();
 		}
+	}
+
+	void GeneticAlgorithm::ClearObject() {
+		for (unsigned __int32 i = 0; i < popSize; i++) {
+			delete[] population[i].genes;
+		}
+		delete[] population;
 	}
 
 }

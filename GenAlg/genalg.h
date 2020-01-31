@@ -38,5 +38,7 @@ namespace GenAlg {
 		GeneticAlgorithm(__int32 inputPopSize, __int32 inputNumberOfGenerations, __int32 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), __int32 inputGroupSize, __int32 mutationRateIn100000, __int32 crossoverRateIn100000);
 
 		void RunGeneticAlgorithm();
+
+		void ClearObject();
 	};
 }
