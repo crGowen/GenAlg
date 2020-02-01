@@ -171,7 +171,7 @@ namespace GenAlg
 		delete[] nextGen;
 	}
 
-	void GeneticAlgorithm::RunGeneticAlgorithm() {
+	void GeneticAlgorithm::RunGeneticAlgorithm(bool printOutput) {
 		if (block) {
 			std::cout << "\nGenAlg instance not initialised properly, use the parametised constructor only!\n";
 		}
@@ -180,7 +180,7 @@ namespace GenAlg
 		std::cout.precision(15);
 		for (int i = 0; i < generations; i++) {
 			EvaluateFitnessForPop();
-			std::cout << std::scientific << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
+			if (printOutput) std::cout << std::scientific << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
 			TournamentSelection();
 		}
 	}
