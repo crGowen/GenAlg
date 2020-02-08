@@ -8,7 +8,7 @@
 // THIS PROGRAM WILL ONLY COMPILE FOR x64/Release unless you also recompile the GenAlg library for other platforms
 // ALSO NOTE: the algorithm is not necessarily going to produce the most 'elegant' solution, it will simply go for a solution that works well, for instance: in this example program,
 // the obvious solution to this fitness function (produce 15 from x * y) is x=3, y=5, however a result of something like
-// x = 2.6660446, y = 5.6263123 is just as likely as they both produce 15 within the float margin of error
+// x = 2.6660446, y = 5.6263123 is just as likely as they both produce 15 within the floating point margin of error
 
 // fitness function must always be defined by the user as a double with a (unsigned __int32*) parameter
 double EvalSolut(unsigned __int32* g) {
