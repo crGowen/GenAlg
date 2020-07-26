@@ -6,14 +6,6 @@
 #define DLL_IMEX __declspec(dllimport)
 #endif
 
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <string>
-#include <bitset>
-#include <iostream>
-#include <thread>
-
 // for dynamic: add DLL_IMEX after keywords 'class' to prepare dynamic dll, and define MAKE_DLL in project settings
 extern "C" {
 	class DLL_IMEX GeneticAlgorithm {
@@ -26,7 +18,6 @@ extern "C" {
 		static unsigned __int32 crRate;
 
 		static bool block;
-		static bool multithreaded;
 
 		class DLL_IMEX GaSolution {
 		public:
@@ -44,6 +35,8 @@ extern "C" {
 
 		static double(*FitnessEval)(unsigned __int32* inputGenes);
 
+		static void FeThread(unsigned __int32 start, unsigned __int32 end);
+
 		static void EvaluateFitnessForPop();
 
 		static void CreatePopulation();
@@ -56,7 +49,7 @@ extern "C" {
 
 		static void UpdateBest(GaSolution input);
 
-		static void Initialise(__int32 inputPopSize, __int32 inputNumberOfGenerations, __int32 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), __int32 inputGroupSize, __int32 mutationRateIn100000, __int32 crossoverRateIn100000, bool mt = false);
+		static void Initialise(__int32 inputPopSize, __int32 inputNumberOfGenerations, __int32 numberOfGenes, double(*fitnessFunction)(unsigned __int32* inGenes), __int32 inputGroupSize, __int32 mutationRateIn100000, __int32 crossoverRateIn100000);
 
 		static void RunGeneticAlgorithm(bool printOutput);
 
