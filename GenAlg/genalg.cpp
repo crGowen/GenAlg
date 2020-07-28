@@ -11,13 +11,13 @@ GeneticAlgorithm::GaSolution::GaSolution() {
 }
 
 void GeneticAlgorithm::GaSolution::InitGeneString(unsigned __int16 n, bool randomise) {
+
 	genes = new unsigned __int32[n];
 
 	if (randomise) {
-		srand(time(NULL));
 
 		for (unsigned __int16 i = 0; i < n; i++) {
-			genes[i] = unsigned __int32(rand() % 4294967296);
+			genes[i] = GenRandomNumber();
 		}
 	}
 }
@@ -32,6 +32,7 @@ void GeneticAlgorithm::Initialise(__int32 inputPopSize, __int32 inputNumberOfGen
 	crRate = crossoverRateIn100000;
 
 	block = false;
+	srand((unsigned)time(NULL));
 }
 
 void GeneticAlgorithm::CreatePopulation() {
@@ -93,17 +94,17 @@ void GeneticAlgorithm::GenerateChild(unsigned __int32 posM, unsigned __int32 pos
 	unsigned __int32 mMask = 0;
 	unsigned __int32 mIndex = nGenes + 1;
 
-	if (rand() % 100000 < crRate) {
+	if (GenRandomNumber() % 100000 < crRate) {
 		//crossover
-		tempRand = 1 + (rand() % (32 * nGenes - 1)); // N between 1 and (32*nGenes - 1)
+		tempRand = 1 + (GenRandomNumber() % (32 * nGenes - 1)); // N between 1 and (32*nGenes - 1)
 
 		crIndex = tempRand / 32;
 		crMask = pow(2, (tempRand % 32) ) - 1;
 	}
 
-	if (rand() % 100000 < muRate) {
+	if (GenRandomNumber() % 100000 < muRate) {
 		//mutation
-		tempRand = rand() % (32 * nGenes); // N between 0 and (32*nGenes - 1)
+		tempRand = GenRandomNumber() % (32 * nGenes); // N between 0 and (32*nGenes - 1)
 
 		mIndex = tempRand / 32;
 		mMask = pow(2, (tempRand % 32) );
@@ -138,7 +139,7 @@ void GeneticAlgorithm::TsThread(GaSolution* nextGen, unsigned __int32 start, uns
 		for (int i = 0; i < groupSize; i++) {
 			unique = false;
 			while (!unique) {
-				contenders[i] = unsigned __int32(rand() % popSize);
+				contenders[i] = unsigned __int32(GenRandomNumber() % popSize);
 				unique = true;
 				for (int j = 0; j < groupSize; j++) {
 					if (contenders[i] == contenders[j] && i != j) {
@@ -165,7 +166,7 @@ void GeneticAlgorithm::TsThread(GaSolution* nextGen, unsigned __int32 start, uns
 		for (int i = 0; i < groupSize; i++) {
 			unique = false;
 			while (!unique) {
-				contenders[i] = unsigned __int32(rand() % popSize);
+				contenders[i] = unsigned __int32(GenRandomNumber() % popSize);
 				unique = !(contenders[i] == mother);
 				for (int j = 0; j < groupSize; j++) {
 					if (contenders[i] == contenders[j] && i != j) {
@@ -233,6 +234,19 @@ void GeneticAlgorithm::RunGeneticAlgorithm(bool printOutput) {
 		if (printOutput) std::cout << std::scientific << "Generation " << i + 1 << " completed. Best fitness = " << bestSolution.fitness << std::endl;
 		TournamentSelection();
 	}
+}
+
+unsigned __int32 GeneticAlgorithm::GenRandomNumber() {
+	// existing randomisation functions weren't being random enough, not even <random>
+	// so we'll literally just randomise bits
+
+	unsigned __int32 n = 0;
+	for (int j = 0; j < 4; j++) {
+		unsigned __int32 val = rand() % 256;
+		n += (val << (j * 8));
+	}
+
+	return n;
 }
 
 void GeneticAlgorithm::ClearObject() {

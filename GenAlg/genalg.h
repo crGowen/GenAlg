@@ -33,6 +33,8 @@ extern "C" {
 	public:
 		static GaSolution bestSolution;
 
+		static unsigned __int32 GenRandomNumber();
+
 		static double(*FitnessEval)(unsigned __int32* inputGenes);
 
 		static void FeThread(unsigned __int32 start, unsigned __int32 end);

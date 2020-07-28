@@ -1,12 +1,9 @@
 ﻿  stdafx.cpp
   genalg.cpp
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(17): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(96): warning C4018: '<': signed/unsigned mismatch
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(101): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(104): warning C4018: '<': signed/unsigned mismatch
-c:\users\carl\source\repos\genalg\genalg\genalg.cpp(109): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\carl\source\repos\genalg\genalg\genalg.cpp(102): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
+c:\users\carl\source\repos\genalg\genalg\genalg.cpp(110): warning C4244: '=': conversion from 'double' to 'unsigned int', possible loss of data
      Creating library C:\Users\Carl\source\repos\GenAlg\x64\Release\GenAlg.lib and object C:\Users\Carl\source\repos\GenAlg\x64\Release\GenAlg.exp
   Generating code
-  All 257 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 258 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   GenAlg.vcxproj -> C:\Users\Carl\source\repos\GenAlg\x64\Release\GenAlg.dll
