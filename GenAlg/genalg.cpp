@@ -42,8 +42,8 @@ void GeneticAlgorithm::CreatePopulation() {
 		population[i].InitGeneString(nGenes, true);
 	}
 
-	bestSolution.InitGeneString(nGenes, false);
-	bestSolution.fitness = -50000000.0;
+	bestSolution.InitGeneString(nGenes, true);
+	bestSolution.fitness = FitnessEval(bestSolution.genes);
 }
 
 void GeneticAlgorithm::FeThread(unsigned __int32 start, unsigned __int32 end) {
